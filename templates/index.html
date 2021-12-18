@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block bodyclass %} index-page {% endblock %}
+{% block style %}
+<link href="{% static 'css/home.css' %}" rel="stylesheet" /> 
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+{% endblock %}
+
+{% block pageheader %}
+   <div id="particle-div" class="page-header header-filter" data-parallax="true" style="background-image: url('{% static 'img/techno2.jfif' %}')">
+     <div class="container">
+       <div class="row">
+        <div class="col-md-8 ml-auto mr-auto">
+            <div class="brand">
+              <h1 style="letter-spacing:3px; font-family: 'Orbitron', sans-serif;" data-aos="zoom-in" data-aos-duration="1000" data-aos-once="true">BLOGATHON</h1>
+
+              <div>
+                <h3 data-aos="fade-left" data-aos-delay="1000" data-aos-duration="500" data-aos-once = "true">WRITE</h3>
+                <h3 class="sep-bar" data-aos="zoom-in" data-aos-duration="1000" data-aos-once="true">&nbsp|&nbsp</h3>
+                <h3 data-aos="fade-down" data-aos-delay="1000" data-aos-duration="500" data-aos-once = "true">LEARN</h3>
+                <h3 class="sep-bar" data-aos="zoom-in" data-aos-duration="1000" data-aos-once="true">&nbsp|&nbsp</h3 class="sep-bar">
+                <h3 data-aos="fade-right" data-aos-delay="1000" data-aos-duration="500" data-aos-once = "true">EARN</h3>
+              </div>
+              <h3 style="font-family: 'Comfortaa', cursive;" data-aos="fade-down" data-aos-delay="1500" data-aos-duration="500" data-aos-once="true">Blogging Community</h3>
+
+            </div>
+          </div>
+       </div>
+     </div>
+   </div>
+{% endblock %}
+   
+{% block outer %}
+    <div class="main main-raised">
+        <div class="container">
+          {% if messages %}
+              <div class="section" style="padding:50px 0px 0px 0px;">
+                  {% for message in messages %}
+                      <div class="alert alert-info">
+                          <div class="container">
+                          <div class="alert-icon">
+                              <i class="material-icons">info_outline</i>
+                          </div>
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                          </button>
+                          <b>{{ message }}</b>
+                          </div>
+                      </div>
+                  {% endfor %}
+              </div>
+          {% endif %}
+            
+          <div class="section text-center">
+            
+          <div class="section section-contacts">
+            <div class="row">
+               <div class="col-md-12 ml-auto mr-auto" data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
+                 <h2 class="title" style="color:white; margin-bottom:30px;">INTRODUCTION</h2>
+               </div>
+               <div class="col-md-12 ml-auto mr-auto">
+                 <p style="font-size: large;color:white;line-height:1.6" data-aos="fade-down" data-aos-duration="1000" data-aos-once="true">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore aliquid repellat deleniti inventore quisquam animi fuga quam nesciunt voluptatum consequatur aliquam dolores, hic non! Optio, aspernatur non! Consequuntur explicabo id nesciunt assumenda?</p>
+                 <p style="font-size: large;color:white;line-height:1.6" data-aos="fade-down" data-aos-duration="1000" data-aos-once="true">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Saepe fugit error corrupti aliquid. Dicta, dolorum!</p>
+                   
+                   {% if user.is_authenticated %}
+                   <a class="col-lg-4 btn btn-primary btn-block mt-5 mb-3 mr-auto ml-auto" href="profile/{{ user.username }}/" role="button">Go to Dashboard</a>
+                   {% else %}
+                   <a class="col-lg-4 btn btn-primary btn-block mt-5 mb-3 mr-auto ml-auto disabled" href="#" role="button">Login To See Your Dashboard</a>
+                   {% endif %}
+                   </div>
+                 </div>
+            </div>
+        </div>  
+        <div class="event-counter text-center">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-lg-12" data-aos="fade-down" data-aos-duration="1000" data-aos-once="true">
+                          <div class="event-name">
+                              <h2 class="title">Achieved so far...</h2>
+                          </div>
+                          <div class="countdown-timer" id="countdown">
+                            <div class="row  mr-auto ml-auto">
+                            <div class="col-lg-4 col-md-3 col-sm-3 col-xs-3 col-timer">
+                              <div class="card card-pricing bg-primary">
+                                <div class="card-body ">
+                                  <h2 class="card-title">{{websiteStats.total_blogs}}+</h2>
+                                  <p class="card-description">
+                                      Blogs Published
+                                  </p>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-4 col-md-3 col-sm-3 col-xs-3 col-timer">
+                            <div class="card card-pricing bg-primary"><div class="card-body ">
+                              
+                              <h2 class="card-title">{{websiteStats.registered_users}}+</h2>
+                              <p class="card-description">
+                                  Registered Users
+                              </p>
+                          
+                              </div>
+                          </div>
+                            </div>
+                              <div class="col-lg-4 col-md-3 col-sm-3 col-xs-3 col-timer">
+                                <div class="card card-pricing bg-primary"><div class="card-body ">
+                              
+                                  <h2 class="card-title">{{websiteStats.money_rewarded}}+</h2>
+                                  <p class="card-description">
+                                      Money Rewarded (INR)
+                                  </p>
+                              
+                                  </div>
+                              </div>
+                              </div>
+                            
+                              </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+    </div>
+
+    <div class="col-lg-12 col-md-12 ml-auto mr-auto text-center" style="margin-top:40px;"><small class="text-muted">Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"     title="Flaticon">www.flaticon.com</a>, Icons made by <a href="https://www.flaticon.com/authors/geotatah" title="geotatah">geotatah</a> from <a href="https://www.flaticon.com/"     title="Flaticon">www.flaticon.com</a>, Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/"     title="Flaticon">www.flaticon.com</a></small></div>
+   
+ {% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="{% static 'js/particles.js' %}"></script>
+<script>
+  
+  $(document).ready(function() {
+    AOS.init();
+    particlesJS.load('particle-div', '{% static "js/particles.json" %}');
+    
+  })
+</script>
+{% endblock %}

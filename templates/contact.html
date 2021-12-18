@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block bodyclass %} index-page {% endblock %}
+{% block style %}
+<link href="{% static 'css/home.css' %}" rel="stylesheet" /> 
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+{% endblock %}
+
+{% block pageheader %}
+   <div class="page-header header-filter" data-parallax="false" style="background-image: url('{% static 'img/techno2.jfif' %}')">
+        <div class="container text-center">
+            <h1>Contact</h1>
+            <div class="container mr-auto ml-auto" style="overflow-x:auto;">
+                <table class="table table-hover table-light text-center color-black table-bordered"  data-aos="fade-down" data-aos-duration="1000" data-aos-once="true">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Designation</th>
+                        <th scope="col">Email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">Aryan Garg</th>
+                        <td>Admin</td>
+                        <td>garg2001aryan@gmail.com</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Chirag Goyal</th>
+                        <td>Admin</td>
+                        <td>chiraggoyaliit@gmail.com</td>
+                    </tr>
+                    </tbody>
+                </table>
+               </div>
+        </div>
+    </div>
+{% endblock %}
+
+   
+{% block outer %}    
+    <div class="col-lg-12 col-md-12 ml-auto mr-auto text-center" style="margin-top:50px;"><small class="text-muted">Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"     title="Flaticon">www.flaticon.com</a>, Icons made by <a href="https://www.flaticon.com/authors/geotatah" title="geotatah">geotatah</a> from <a href="https://www.flaticon.com/"     title="Flaticon">www.flaticon.com</a>, Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/"     title="Flaticon">www.flaticon.com</a></small></div>
+ {% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    $(document).ready(function() {
+    AOS.init();
+  })
+</script>
+{% endblock %}

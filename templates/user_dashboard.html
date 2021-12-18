@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block bodyclass %} index-page {% endblock %}
+{% block style %}
+<link href="{% static 'css/home.css' %}" rel="stylesheet" /> 
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+{% endblock %}
+
+<!-- <div class="container">
+
+</div> -->
+
+{% block pageheader %}
+   <div id="particle-div" class="page-header header-filter" data-parallax="false" style="background-image: url('{% static 'img/techno2.jfif' %}')">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-lg-12" data-aos="fade-down" data-aos-duration="1000" data-aos-once="true">
+                    <div>
+                        <h2 class="title">Your Stats</h2>
+                    </div>
+                    <div class="countdown-timer">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-6">
+                                <div class="card card-pricing bg-primary">
+                                    <div class="card-body ">
+                                        <h2 class="card-title">{{userStats.shortlistedArticles}}</h2>
+                                        <p class="card-description">
+                                            Shortlisted Articles
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-6">
+                                <div class="card card-pricing bg-primary">
+                                    <div class="card-body ">
+                                        <h2 class="card-title">{{userStats.moneyEarned}}</h2>
+                                        <p class="card-description">
+                                            Money Received (INR)
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-6">
+                                <div class="card card-pricing bg-primary">
+                                    <div class="card-body ">
+                                        <h2 class="card-title">{{userStats.pendingArticles}}</h2>
+                                        <p class="card-description">
+                                            Pending Articles
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-6">
+                                <div class="card card-pricing bg-primary">
+                                    <div class="card-body ">
+                                        <h2 class="card-title">NULL</h2>
+                                        <p class="card-description">
+                                            Coming Soon
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+   
+{% block outer %}
+    <div class="main main-raised">
+        <div class="mr-3 ml-3">
+          {% if messages %}
+              <div class="section" style="padding:50px 0px 0px 0px;">
+                  {% for message in messages %}
+                      <div class="container alert alert-info">
+                          <div class="container">
+                          <div class="alert-icon">
+                              <i class="material-icons">info_outline</i>
+                          </div>
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                          </button>
+                          <b>{{ message }}</b>
+                          </div>
+                      </div>
+                  {% endfor %}
+              </div>
+          {% endif %}
+            
+          <div class="section text-center">
+            
+          <div class="section section-contacts">
+            <div class="row">
+               <div class="col-md-12 ml-auto mr-auto" data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
+                 <h2 class="title" style="color:white; margin-bottom:30px;">My Articles</h2>
+               </div>
+               <div class="container mr-auto ml-auto" style="overflow-x:auto;">
+                <table class="table table-hover table-light text-center color-black table-bordered"  data-aos="fade-down" data-aos-duration="1000" data-aos-once="true">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Date Created</th>
+                        <th scope="col">Date Updated</th>
+                        <th scope="col">Update</th>
+                        <th scope="col">Updated By</th>
+                        <th scope="col">Link</th>
+                        <th scope="col">Money Paid</th>
+                        <th scope="col">Utilities</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in blogs %}
+                    <tr>
+                        <th style="overflow-x: auto;" id="article_name_{{item.blog_id}}" scope="row">{{item.article_name}}</th>
+                        <td>{{item.blog_status}}</td>
+                        <td>{{item.date_created}}</td>
+                        <td>{{item.date_updated}}</td>
+                        <td>
+                            {% if item.blog_status == "Revision requested" %}
+                                {{item.review_by_admin}}
+                            {% endif %}
+                        </td>
+                        <td>{{item.updated_by}}</td>
+                        <td>
+                            <a id="article_link_{{item.blog_id}}" style="text-decoration: none; margin: auto; font-size: 0.9rem; color: blue;" href="{{item.google_doc_link}}" target="_blank"><i class="fas fa-link"></i></a>
+                        </td>
+                        <td>
+                            {% if item.isPaid == True %}
+                                <div style="color: green; margin: auto 0px;"><i class="fas fa-check"></i></div>
+                            {% elif item.blog_status == "Rejected" %}
+                                <div style="color: red;"><i class="fas fa-times"></i></div>
+                            {% endif %}
+                        </td>
+                        <td>
+                        <div id="{{item.blog_id}}" style="display: flex; text-align: center;">
+                            {% if item.blog_status != "Shortlisted" %}
+                                {% if item.blog_status == "Pending for review" %}
+                                    <button onclick="deleteBlog(this)" title="Delete" type="submit" class="btn btn-outline-danger py-2 px-2"><i class="far fa-trash-alt"></i></button>
+                                {% elif item.blog_status == "Rejected" %}
+                                    <button onclick="deleteBlog(this)" title="Delete" type="submit" class="btn btn-outline-danger py-2 px-2"><i class="far fa-trash-alt"></i></button>
+                                    <button onclick="editBlog(this)" title="Edit" class="btn btn-outline-info py-2 px-2"><i class="far fa-edit"></i></button>
+                                {% else %}
+                                    <button onclick="submitBlog(this)" title="Submit for Review" class="btn btn-outline-success py-2 px-2">Submit</button>
+                                    <button onclick="deleteBlog(this)" title="Delete" class="btn btn-outline-danger py-2 px-2"><i class="far fa-trash-alt"></i></button>
+                                    <button onclick="editBlog(this)" title="Edit" class="btn btn-outline-info py-2 px-2"><i class="far fa-edit"></i></button>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+               </div>
+            </div>
+            <div class="container text-left">
+                
+            </div>
+        </div>
+        </div>  
+        <div class="event-counter text-center">
+              <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 mr-auto ml-auto">
+                        <h2 style="color: black; font-size: 2.1rem; font-family: 'Roboto Slab', 'Times New Roman', serif; font-weight: 700;"  data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">Create Article</h2>
+                        <form action="/profile/{{ user.username }}/" method="POST"  data-aos="fade-down" data-aos-duration="1000" data-aos-once="true">{% csrf_token %}
+                            <div class="form-group">
+                            <label for="article_name">Article Name</label>
+                            <input type="text" class="form-control" id="article_name" name="article_name">
+                            </div>
+                            <div class="form-group">
+                            <label for="article_link">Google Doc Link</label>
+                            <input type="url" class="form-control" id="article_link" name="article_link">
+                            <p style="text-align: left; font-size: 0.85rem; color: black;">&#42; Make sure to give Edit access.</p>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </form>
+                    </div>
+                </div>
+                  
+              </div>
+          </div>
+    </div>
+    
+    <div class="col-lg-12 col-md-12 ml-auto mr-auto text-center" style="margin-top:50px;"><small class="text-muted">Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"     title="Flaticon">www.flaticon.com</a>, Icons made by <a href="https://www.flaticon.com/authors/geotatah" title="geotatah">geotatah</a> from <a href="https://www.flaticon.com/"     title="Flaticon">www.flaticon.com</a>, Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/"     title="Flaticon">www.flaticon.com</a></small></div>
+
+
+ {% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="{% static 'js/particles.js' %}"></script>
+<script>
+  
+  $(document).ready(function() {
+    AOS.init();
+    particlesJS.load('particle-div', '{% static "js/particles.json" %}');
+  })
+
+  function submitBlog(el) {
+    el.preventDefault;
+    $.ajax({
+        "type": 'POST',
+        "url":'/submitForReviewBlog/',
+        "content-type": "application/json",
+        'data': {
+            'content': el.parentNode.id,
+            // 'csrfmiddlewaretoken': '{{ csrf_token }}',
+        },
+        "success": window.location.replace("/profile/{{ user.username }}/"),
+        "headers": { "X-CSRFToken": '{{csrf_token}}' }
+    })
+  }
+  function deleteBlog(el) {
+    if(confirm("Are you really want to delete blog") == true) {
+        el.preventDefault;
+        $.ajax({
+            "type": 'POST',
+            "url":'/deleteBlog/',
+            "content-type": "application/json",
+            'data': {
+                'content': el.parentNode.id,
+                // 'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            "success": window.location.replace("/profile/{{ user.username }}/"),
+            "headers": { "X-CSRFToken": '{{csrf_token}}' }
+        })
+    }
+  }
+  function editBlog(el) {
+    var blog_id = el.parentNode.id;
+    var current_article_name = $(`#article_name_${el.parentNode.id}`).html();
+    var current_article_link = $(`#article_link_${el.parentNode.id}`).attr('href');
+    var updated_article_name = prompt("Article Name:", current_article_name);
+    var updated_article_link = prompt("Article Link:", current_article_link);
+    var obj = [
+        blog_id,
+        updated_article_name,
+        updated_article_link,
+    ]
+    el.preventDefault;
+    $.ajax({
+            "type": 'POST',
+            "url":'/editBlog/',
+            "content-type": "application/json",
+            'data': {
+                'data[]' : obj,
+                // 'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            "success": window.location.replace("/profile/{{ user.username }}/"),
+            "headers": { "X-CSRFToken": '{{csrf_token}}' }
+    })
+  }
+
+
+</script>
+{% endblock %}
